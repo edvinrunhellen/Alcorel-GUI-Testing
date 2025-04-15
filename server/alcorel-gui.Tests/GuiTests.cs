@@ -142,14 +142,38 @@ public class GuiTest : PageTest
     [TestMethod]
     public async Task ManageTicketAsCustomer()
     {
-        _page.SetDefaultTimeout(60000);
-        await _page.GotoAsync("http://localhost:5001/customer-view/98353a155b5346449f49b0acb9a28b38");
-        await _page.GetByRole(AriaRole.Textbox, new()
+        try
         {
-            Name = new Regex("reply", RegexOptions.IgnoreCase)
-        }).FillAsync("alright, thanks for the help");
-        await _page.GetByRole(AriaRole.Button, new() { Name = "Send Reply" }).ClickAsync();
+            _page.SetDefaultTimeout(60000);
 
+            // 1. Navigera till sidan
+            await _page.GotoAsync("http://localhost:5001/customer-view/98353a155b5346449f49b0acb9a28b38");
+            await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+            // 2. Vänta in textfältet och fyll i svaret
+            var textbox = _page.GetByRole(AriaRole.Textbox, new()
+            {
+                NameRegex = new Regex("reply", RegexOptions.IgnoreCase)
+            });
+
+            await textbox.WaitForAsync(); // viktig i CI
+            await textbox.FillAsync("alright, thanks for the help");
+
+            // 3. Klicka på "Send Reply"
+            var sendButton = _page.GetByRole(AriaRole.Button, new() { Name = "Send Reply" });
+            await sendButton.ClickAsync();
+        }
+        catch (Exception ex)
+        {
+            // Ta en screenshot om det går fel
+            var screenshotPath = Path.Combine(Directory.GetCurrentDirectory(), $"error_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+            await _page.ScreenshotAsync(new PageScreenshotOptions { Path = screenshotPath });
+            Console.WriteLine($"Testet misslyckades. Skärmdump sparad till: {screenshotPath}");
+            Console.WriteLine($"Felmeddelande: {ex.Message}");
+
+            // Kasta vidare så att testet fortfarande failar
+            throw;
+        }
     }
     [TestMethod]
     public async Task SolveTicketAsEmployee()
