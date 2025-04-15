@@ -39,7 +39,7 @@ public class GuiTest : PageTest
     [TestMethod]
     public async Task LoginAdmin()
     {
-        await _page.GotoAsync("http://localhost:5173/");
+        await _page.GotoAsync("http://localhost:5001/");
         await _page.GetByRole(AriaRole.Link, new() { Name = "log-in for businesses" }).ClickAsync();
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).ClickAsync();
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).FillAsync("cj@cj.com");
@@ -51,7 +51,7 @@ public class GuiTest : PageTest
     [TestMethod]
     public async Task NavTesting()
     {
-        await _page.GotoAsync("http://localhost:5173/");
+        await _page.GotoAsync("http://localhost:5001/");
         await _page.GetByRole(AriaRole.Link, new() { Name = "log-in for businesses" }).ClickAsync();
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).ClickAsync();
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).FillAsync("cj@cj.com");
@@ -111,7 +111,7 @@ public class GuiTest : PageTest
     [TestMethod]
     public async Task CreateTicketAsCustomer()
     {
-        await _page.GotoAsync("http://localhost:5173/company/1");
+        await _page.GotoAsync("http://localhost:5001/company/1");
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Enter your name:" }).ClickAsync();
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Enter your name:" }).FillAsync("Edvin");
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Enter your email:" }).ClickAsync();
@@ -124,7 +124,7 @@ public class GuiTest : PageTest
     [TestMethod]
     public async Task ManageTicketAsEmployee()
     {
-        await _page.GotoAsync("http://localhost:5173/");
+        await _page.GotoAsync("http://localhost:5001/");
         await _page.GetByRole(AriaRole.Link, new() { Name = "log-in for businesses" }).ClickAsync();
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).ClickAsync();
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).FillAsync("cj@cj.com");
@@ -141,7 +141,7 @@ public class GuiTest : PageTest
     [TestMethod]
     public async Task ManageTicketAsCustomer()
     {
-        await _page.GotoAsync("http://localhost:5173/customer-view/98353a155b5346449f49b0acb9a28b38/");
+        await _page.GotoAsync("http://localhost:5001/customer-view/98353a155b5346449f49b0acb9a28b38/");
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Reply..." }).FillAsync("there?");
         await _page.GetByRole(AriaRole.Button, new() { Name = "Send Reply" }).ClickAsync();
 
@@ -149,7 +149,7 @@ public class GuiTest : PageTest
     [TestMethod]
     public async Task SolveTicketAsEmployee()
     {
-        await _page.GotoAsync("http://localhost:5173/");
+        await _page.GotoAsync("http://localhost:5001/");
         await _page.GetByRole(AriaRole.Link, new() { Name = "log-in for businesses" }).ClickAsync();
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).ClickAsync();
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Email" }).FillAsync("cj@cj.com");
