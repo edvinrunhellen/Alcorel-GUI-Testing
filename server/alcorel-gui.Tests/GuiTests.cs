@@ -147,7 +147,7 @@ public class GuiTest : PageTest
             _page.SetDefaultTimeout(60000);
 
             // 1. Navigera till sidan
-            await _page.GotoAsync("http://localhost:5001/customer-view/98353a155b5346449f49b0acb9a28b38");
+            await _page.GotoAsync("http://localhost:5173/customer-view/190a372838b04fc999eea176ade749a6");
             await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
             // 2. Vänta in textfältet och fyll i svaret
