@@ -19,7 +19,7 @@ public class GuiTest : PageTest
         _browser = await _playwright.Chromium.LaunchAsync(
             new BrowserTypeLaunchOptions
             {
-                Headless = false, // true = ingen GUI
+                Headless = true, // true = ingen GUI
                 // SlowMo = 5, // Lägger in en fördröjning så vi kan se vad som händer
             }
         );
