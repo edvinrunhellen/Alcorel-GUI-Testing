@@ -160,9 +160,4 @@ public class GuiTest : PageTest
         await _page.GetByRole(AriaRole.Link, new() { Name = "#57" }).ClickAsync();
         await _page.GetByRole(AriaRole.Button, new() { Name = "Mark as solved" }).ClickAsync();
     }
-
-
-
-
-
 }
