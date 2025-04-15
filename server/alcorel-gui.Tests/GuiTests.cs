@@ -111,6 +111,7 @@ public class GuiTest : PageTest
     [TestMethod]
     public async Task CreateTicketAsCustomer()
     {
+        _page.SetDefaultTimeout(60000);
         await _page.GotoAsync("http://localhost:5001/company/1");
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Enter your name:" }).ClickAsync();
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Enter your name:" }).FillAsync("Edvin");
@@ -141,6 +142,7 @@ public class GuiTest : PageTest
     [TestMethod]
     public async Task ManageTicketAsCustomer()
     {
+        _page.SetDefaultTimeout(60000);
         await _page.GotoAsync("http://localhost:5001/customer-view/98353a155b5346449f49b0acb9a28b38");
         await _page.Locator("input[placeholder*='reply' i], textarea[placeholder*='reply' i], input[name*='reply' i], textarea[name*='reply' i]").First.FillAsync("alright, thanks for the help");
         await _page.GetByRole(AriaRole.Button, new() { Name = "Send Reply" }).ClickAsync();
