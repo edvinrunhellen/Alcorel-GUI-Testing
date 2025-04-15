@@ -142,7 +142,8 @@ public class GuiTest : PageTest
     public async Task ManageTicketAsCustomer()
     {
         await _page.GotoAsync("http://localhost:5001/customer-view/98353a155b5346449f49b0acb9a28b38/");
-        await _page.GetByRole(AriaRole.Textbox, new() { Name = "Reply" }).FillAsync("there?");
+        await _page.GetByRole(AriaRole.Textbox, new() { Name = "Reply..." }).ClickAsync();
+        await _page.GetByRole(AriaRole.Textbox, new() { Name = "Reply..." }).FillAsync("alright, thanks for the help");
         await _page.GetByRole(AriaRole.Button, new() { Name = "Send Reply" }).ClickAsync();
 
     }
@@ -157,7 +158,7 @@ public class GuiTest : PageTest
         await _page.GetByRole(AriaRole.Textbox, new() { Name = "Password" }).FillAsync("1");
         await _page.GetByRole(AriaRole.Button, new() { Name = "Login" }).ClickAsync();
         await _page.GetByRole(AriaRole.Link, new() { Name = "Tickets" }).ClickAsync();
-        await _page.GetByRole(AriaRole.Link, new() { Name = "#57" }).ClickAsync();
+        await _page.GetByRole(AriaRole.Link, new() { Name = "#11" }).ClickAsync();
         await _page.GetByRole(AriaRole.Button, new() { Name = "Mark as solved" }).ClickAsync();
     }
 }
