@@ -19,7 +19,7 @@ public class GuiTest : PageTest
         _browser = await _playwright.Chromium.LaunchAsync(
             new BrowserTypeLaunchOptions
             {
-                Headless = true, // true = ingen GUI
+                Headless = false, // true = ingen GUI
                 // SlowMo = 5, // Lägger in en fördröjning så vi kan se vad som händer
             }
         );
@@ -142,7 +142,7 @@ public class GuiTest : PageTest
     public async Task ManageTicketAsCustomer()
     {
         await _page.GotoAsync("http://localhost:5001/customer-view/98353a155b5346449f49b0acb9a28b38/");
-        await _page.GetByRole(AriaRole.Textbox, new() { Name = "Reply..." }).FillAsync("alright, thanks for the help");
+        await _page.Locator("input[placeholder*='reply' i], textarea[placeholder*='reply' i], input[name*='reply' i], textarea[name*='reply' i]").First.FillAsync("alright, thanks for the help");
         await _page.GetByRole(AriaRole.Button, new() { Name = "Send Reply" }).ClickAsync();
 
     }
