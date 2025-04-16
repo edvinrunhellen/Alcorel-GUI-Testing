@@ -56,7 +56,7 @@ jobs:
   deploy:
     name: Deploy to Server
     runs-on: ubuntu-latest
-    needs: [api_tests, gui_tests] # Kör endast om alla tidigare tester är OK
+    needs: [api_tests, gui_tests] # Kör endast om alla tidigare tester är OK OK
     steps:
       - name: Deploy App
         uses: appleboy/ssh-action@v1.2.0
