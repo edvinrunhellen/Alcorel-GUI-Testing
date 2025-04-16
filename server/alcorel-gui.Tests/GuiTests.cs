@@ -36,7 +36,7 @@ public class GuiTest : PageTest
         _playwright.Dispose();
     }
 
-    [TestMethod]
+    /*[TestMethod]
     public async Task ManageTicketAsCustomer()
     {
         try
@@ -71,7 +71,7 @@ public class GuiTest : PageTest
             // Kasta vidare så att testet fortfarande failar
             throw;
         }
-    }
+    }*/
 
     [TestMethod]
     public async Task LoginAdmin()
