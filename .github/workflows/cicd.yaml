@@ -64,5 +64,5 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /srv/www/halmstad/edvin
-            git clone https://github.com/edvinrunhellen/Alcorel-GUI-Testing.git
+            cd /srv/www/halmstad/edvin/Alcorel-GUI-Testing
+            git pull
