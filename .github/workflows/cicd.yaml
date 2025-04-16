@@ -40,6 +40,8 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8.0.x
+      - name: Install dependencies
+        run: sudo apt-get install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libx11-xcb1 libxcomposite1 libxdamage1 libxrandr2 libgbm1 libasound2 libxshmfence1 libxfixes3 libxrender1 libxext6 libx11-6 libc6
       - name: Install dotnet project dependencies
         run: cd server/server && dotnet restore
       - name: Build/Restore Playwright Project
@@ -64,7 +66,5 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            source /root/.nvm/nvm.sh
-            nvm use v20.12.2
             cd /srv/www/halmstad/edvin
-            git pull
+            git clone https://github.com/edvinrunhellen/Alcorel-GUI-Testing.git
