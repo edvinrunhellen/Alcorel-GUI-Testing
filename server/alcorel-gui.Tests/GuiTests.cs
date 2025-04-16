@@ -202,7 +202,7 @@ public class GuiTest : PageTest
         await page.GetByRole(AriaRole.Textbox, new() { Name = "Enter your name:" }).FillAsync("eddo");
         await page.GetByRole(AriaRole.Textbox, new() { Name = "Enter your name:" }).PressAsync("Tab");
         await page.Keyboard.PressAsync("v"); await Page1.Keyboard.UpAsync("Meta");
-        */
+        
 
         // Navigera till temp-mail.org och kopiera e-postadressen
         await _page.GotoAsync("https://temp-mail.org/");
@@ -227,5 +227,6 @@ public class GuiTest : PageTest
         await _page.Locator("div").Filter(new() { HasTextRegex = new Regex("Choose a category") }).GetByRole(AriaRole.Combobox).SelectOptionAsync(new[] { "15" });
         await _page.GetByRole(AriaRole.Button, new() { Name = "Submit" }).ClickAsync();
         //blocked när man försöker klicka på emailet
+        */
     }
 }
