@@ -11,6 +11,7 @@ public class GuiTest : PageTest
     private IBrowser _browser;
     private IBrowserContext _browserContext;
     private IPage _page;
+    public IPage Page1 { get; set; }
 
     [TestInitialize]
     public async Task Setup()
@@ -19,8 +20,8 @@ public class GuiTest : PageTest
         _browser = await _playwright.Chromium.LaunchAsync(
             new BrowserTypeLaunchOptions
             {
-                Headless = true, // true = ingen GUI
-                // SlowMo = 5, // Lägger in en fördröjning så vi kan se vad som händer
+                Headless = false, // true = ingen GUI
+                SlowMo = 300, // Lägger in en fördröjning så vi kan se vad som händer
             }
         );
         _browserContext = await _browser.NewContextAsync();
@@ -35,42 +36,42 @@ public class GuiTest : PageTest
         _playwright.Dispose();
     }
 
-    /* [TestMethod]
-     public async Task ManageTicketAsCustomer()
-     {
-         try
-         {
-             _page.SetDefaultTimeout(60000);
+    [TestMethod]
+    public async Task ManageTicketAsCustomer()
+    {
+        try
+        {
+            _page.SetDefaultTimeout(60000);
 
-             // 1. Navigera till sidan
-             await _page.GotoAsync("http://localhost:5001/customer-view/7b1d50a0292144bbbce4b1905bf2dcec");
-             await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+            // 1. Navigera till sidan
+            await _page.GotoAsync("http://localhost:5001/customer-view/7b1d50a0292144bbbce4b1905bf2dcec");
+            await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
-             // 2. Vänta in textfältet och fyll i svaret
-             var textbox = _page.GetByRole(AriaRole.Textbox, new()
-             {
-                 NameRegex = new Regex("reply", RegexOptions.IgnoreCase)
-             });
+            // 2. Vänta in textfältet och fyll i svaret
+            var textbox = _page.GetByRole(AriaRole.Textbox, new()
+            {
+                NameRegex = new Regex("reply", RegexOptions.IgnoreCase)
+            });
 
-             await textbox.WaitForAsync(); // viktig i CI
-             await textbox.FillAsync("alright, thanks for the help");
+            await textbox.WaitForAsync(); // viktig i CI
+            await textbox.FillAsync("alright, thanks for the help");
 
-             // 3. Klicka på "Send Reply"
-             var sendButton = _page.GetByRole(AriaRole.Button, new() { Name = "Send Reply" });
-             await sendButton.ClickAsync();
-         }
-         catch (Exception ex)
-         {
-             // Ta en screenshot om det går fel
-             var screenshotPath = Path.Combine(Directory.GetCurrentDirectory(), $"error_{DateTime.Now:yyyyMMdd_HHmmss}.png");
-             await _page.ScreenshotAsync(new PageScreenshotOptions { Path = screenshotPath });
-             Console.WriteLine($"Testet misslyckades. Skärmdump sparad till: {screenshotPath}");
-             Console.WriteLine($"Felmeddelande: {ex.Message}");
+            // 3. Klicka på "Send Reply"
+            var sendButton = _page.GetByRole(AriaRole.Button, new() { Name = "Send Reply" });
+            await sendButton.ClickAsync();
+        }
+        catch (Exception ex)
+        {
+            // Ta en screenshot om det går fel
+            var screenshotPath = Path.Combine(Directory.GetCurrentDirectory(), $"error_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+            await _page.ScreenshotAsync(new PageScreenshotOptions { Path = screenshotPath });
+            Console.WriteLine($"Testet misslyckades. Skärmdump sparad till: {screenshotPath}");
+            Console.WriteLine($"Felmeddelande: {ex.Message}");
 
-             // Kasta vidare så att testet fortfarande failar
-             throw;
-         }
-     }*/
+            // Kasta vidare så att testet fortfarande failar
+            throw;
+        }
+    }
 
     [TestMethod]
     public async Task LoginAdmin()
@@ -188,5 +189,43 @@ public class GuiTest : PageTest
         await _page.GetByRole(AriaRole.Link, new() { Name = "Tickets" }).ClickAsync();
         await _page.GetByRole(AriaRole.Link, new() { Name = "#11" }).ClickAsync();
         await _page.GetByRole(AriaRole.Button, new() { Name = "Mark as solved" }).ClickAsync();
+    }
+
+    [TestMethod]
+    public async Task CarloBoiTest()
+    {
+        /*await _page.GotoAsync("https://temp-mail.org/");
+        await _page.GetByRole(AriaRole.Button).Filter(new() { HasText = "Copy" }).First.ClickAsync();
+        var page1 = await context.NewPageAsync();
+        await page1.GotoAsync("http://localhost:5001/");
+        await page.GetByRole(AriaRole.Textbox, new() { Name = "Enter your name:" }).ClickAsync();
+        await page.GetByRole(AriaRole.Textbox, new() { Name = "Enter your name:" }).FillAsync("eddo");
+        await page.GetByRole(AriaRole.Textbox, new() { Name = "Enter your name:" }).PressAsync("Tab");
+        await page.Keyboard.PressAsync("v"); await Page1.Keyboard.UpAsync("Meta");
+        */
+
+        // Navigera till temp-mail.org och kopiera e-postadressen
+        await _page.GotoAsync("https://temp-mail.org/");
+        await _page.GetByRole(AriaRole.Button)
+            .Filter(new() { HasText = "Copy" })
+            .First
+            .ClickAsync();
+
+        // Skapa en ny sida och navigera till din lokala applikation
+        var page1 = await _browserContext.NewPageAsync();
+        await page1.GotoAsync("http://localhost:5001/");
+        await page1.GetByRole(AriaRole.Textbox, new() { Name = "Enter your name:" }).ClickAsync();
+        await page1.GetByRole(AriaRole.Textbox, new() { Name = "Enter your name:" }).FillAsync("eddo");
+
+        // Tryck Tab för att gå vidare till nästa element
+        await page1.GetByRole(AriaRole.Textbox, new() { Name = "Enter your name:" }).PressAsync("Tab");
+
+        // Använd tangentbordet för att klistra in kopierad text från temp-mail
+        await page1.Keyboard.PressAsync("Meta+v"); // Klistra in
+        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Enter your email:" }).PressAsync("Tab");
+        await Page.GetByRole(AriaRole.Textbox, new() { Name = "Enter your Message:" }).FillAsync("help");
+        await _page.Locator("div").Filter(new() { HasTextRegex = new Regex("Choose a category") }).GetByRole(AriaRole.Combobox).SelectOptionAsync(new[] { "15" });
+        await _page.GetByRole(AriaRole.Button, new() { Name = "Submit" }).ClickAsync();
+        //blocked när man försöker klicka på emailet
     }
 }
